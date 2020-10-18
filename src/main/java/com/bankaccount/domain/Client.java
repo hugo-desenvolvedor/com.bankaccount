@@ -9,9 +9,13 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Past;
 
+import com.bankaccount.annotations.CPF;
+import com.bankaccount.annotations.MinAge;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
@@ -29,18 +33,21 @@ public class Client {
 	private String lastName;
 
 	@NotEmpty(message = "Email is required")
+	@Email(message = "Email should be valid")
 	private String email;
 
 	@JsonFormat(pattern = "dd/MM/yyyy")
 	@NotNull(message = "Birthday date is required")
+	@Past(message = "Birthday date should be in past")
+	@MinAge(value = 18, message = "The age should be greater then 18 years")
 	private Date birthdayDate;
 
 	@NotEmpty(message = "CPF is required")
+	@CPF(message = "CPF is invalid")
 	private String cpf;
 
 	@JsonInclude(Include.NON_EMPTY)
-	@OneToMany(fetch = FetchType.LAZY,mappedBy="client")
-//	@OneToMany(mappedBy = "client")
+	@OneToMany(fetch = FetchType.LAZY, mappedBy="client")
 	private List<Address> address;
 
 	public List<Address> getAddress() {

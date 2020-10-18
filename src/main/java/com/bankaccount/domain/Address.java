@@ -17,22 +17,22 @@ public class Address {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
-	@NotEmpty(message = " is required")
+	@NotEmpty(message = "Zip Code is required")
 	private String zipCode;
 	
-	@NotEmpty(message = " is required")
+	@NotEmpty(message = "Address is required")
 	private String address;
 	
-	@NotEmpty(message = " is required")
+	@NotEmpty(message = "Neighborhood is required")
 	private String neighborhood;
 	
-	@NotEmpty(message = " is required")
+	@NotEmpty(message = "Complement is required")
 	private String  complement;
 	
-	@NotEmpty(message = " is required")
+	@NotEmpty(message = "City is required")
 	private String city;
 	
-	@NotEmpty(message = " is required")
+	@NotEmpty(message = "State is required")
 	private String state;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
