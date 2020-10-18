@@ -37,7 +37,7 @@ public class ClientsResource {
 	public ResponseEntity<Void> create(@Valid @RequestBody Client client) {
 		client = createClientService.execute(client);
 
-		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(client.getId()).toUri();
+		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}/address").buildAndExpand(client.getId()).toUri();
 
 		return ResponseEntity.created(uri).build();
 	}

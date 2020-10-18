@@ -9,6 +9,7 @@ import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
+import com.bankaccount.services.exceptions.ClientNotFoundException;
 import com.bankaccount.services.exceptions.ErrorExceptionDetails;
 
 @ControllerAdvice
@@ -36,4 +37,17 @@ public class ResourceExceptionHandler {
 
 		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
 	}
+
+	@ExceptionHandler(ClientNotFoundException.class)
+	public ResponseEntity<ErrorExceptionDetails> handleClientNotFoundException(ClientNotFoundException e,
+			HttpServletRequest request) {
+		ErrorExceptionDetails error = new ErrorExceptionDetails();
+
+		error.setStatus(404l);
+		error.setTitle("Client not found");
+		error.setTimestamp(System.currentTimeMillis());
+
+		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
+	}
+
 }

@@ -1,15 +1,20 @@
 package com.bankaccount.domain;
 
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
 
 @Entity
 public class Client {
@@ -32,6 +37,19 @@ public class Client {
 
 	@NotEmpty(message = "CPF is required")
 	private String cpf;
+
+	@JsonInclude(Include.NON_EMPTY)
+	@OneToMany(fetch = FetchType.LAZY,mappedBy="client")
+//	@OneToMany(mappedBy = "client")
+	private List<Address> address;
+
+	public List<Address> getAddress() {
+		return address;
+	}
+
+	public void setAddress(List<Address> address) {
+		this.address = address;
+	}
 
 	public Long getId() {
 		return id;
