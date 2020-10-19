@@ -8,6 +8,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Pattern;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -18,6 +19,7 @@ public class Address {
 	private Long id;
 	
 	@NotEmpty(message = "Zip Code is required")
+	@Pattern(regexp = "^\\d{2}.\\d{3}-\\d{3}", message = "The Zip Code is in the incorrect format")
 	private String zipCode;
 	
 	@NotEmpty(message = "Address is required")

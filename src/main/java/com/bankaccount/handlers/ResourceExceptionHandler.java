@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import com.bankaccount.services.exceptions.ClientNotFoundException;
+import com.bankaccount.services.exceptions.CpfAlreadyExistsException;
+import com.bankaccount.services.exceptions.EmailAlreadyExistsException;
 import com.bankaccount.services.exceptions.ErrorExceptionDetails;
 
 @ControllerAdvice
@@ -20,7 +22,7 @@ public class ResourceExceptionHandler {
 		ErrorExceptionDetails error = new ErrorExceptionDetails();
 
 		error.setStatus(400l);
-		error.setTitle("Data integrity violation: the json is invalid");
+		error.setTitle("Data integrity violation");
 		error.setTimestamp(System.currentTimeMillis());
 
 		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
@@ -32,7 +34,7 @@ public class ResourceExceptionHandler {
 		ErrorExceptionDetails error = new ErrorExceptionDetails();
 
 		error.setStatus(400l);
-		error.setTitle("Http Message Not Readable: the format is invalid");
+		error.setTitle("Http Message Not Readable");
 		error.setTimestamp(System.currentTimeMillis());
 
 		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
@@ -43,11 +45,35 @@ public class ResourceExceptionHandler {
 			HttpServletRequest request) {
 		ErrorExceptionDetails error = new ErrorExceptionDetails();
 
-		error.setStatus(404l);
+		error.setStatus(422l);
 		error.setTitle("Client not found");
 		error.setTimestamp(System.currentTimeMillis());
 
-		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
+		return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body(error);
+	}
+	
+	@ExceptionHandler(EmailAlreadyExistsException.class)
+	public ResponseEntity<ErrorExceptionDetails> handleEmailAlreadyExistsException(EmailAlreadyExistsException e,
+			HttpServletRequest request) {
+		ErrorExceptionDetails error = new ErrorExceptionDetails();
+		
+		error.setStatus(422l);
+		error.setTitle("Email already exists");
+		error.setTimestamp(System.currentTimeMillis());
+		
+		return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body(error);
+	}
+	
+	@ExceptionHandler(CpfAlreadyExistsException.class)
+	public ResponseEntity<ErrorExceptionDetails> handleCpfAlreadyExistsException(CpfAlreadyExistsException e,
+			HttpServletRequest request) {
+		ErrorExceptionDetails error = new ErrorExceptionDetails();
+		
+		error.setStatus(422l);
+		error.setTitle("CPF already exists");
+		error.setTimestamp(System.currentTimeMillis());
+		
+		return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body(error);
 	}
 
 }
